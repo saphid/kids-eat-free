@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "validate-data": "node scripts/validate-data.js"
+    "validate-data": "bun scripts/validate-data.js"
   },
   "dependencies": {
     "next": "14.2.15",

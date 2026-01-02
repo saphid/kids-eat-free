@@ -23,6 +23,7 @@ A static website displaying restaurants and venues in Canberra where kids eat fr
 - **Next.js 14** - React framework with static export
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first styling
+- **Bun** - Fast JavaScript runtime and package manager
 - **JSON** - Simple data storage
 - **GitHub Pages** - Free static hosting
 - **GitHub Actions** - Automated deployment
@@ -31,8 +32,7 @@ A static website displaying restaurants and venues in Canberra where kids eat fr
 
 ### Prerequisites
 
-- Node.js 20 or later
-- npm or yarn
+- [Bun](https://bun.sh/) runtime
 
 ### Installation
 
@@ -44,12 +44,12 @@ cd daegu
 
 2. Install dependencies:
 ```bash
-npm install
+bun install
 ```
 
 3. Run the development server:
 ```bash
-npm run dev
+bun run dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
@@ -57,7 +57,7 @@ npm run dev
 ### Building for Production
 
 ```bash
-npm run build
+bun run build
 ```
 
 The static files will be generated in the `out/` directory.
@@ -179,11 +179,11 @@ Edit `lib/data/regions/metadata.json`:
 
 ### Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run validate-data` - Validate JSON data files
+- `bun run dev` - Start development server
+- `bun run build` - Build for production
+- `bun start` - Start production server
+- `bun run lint` - Run ESLint
+- `bun run validate-data` - Validate JSON data files
 
 ### Project Structure
 
