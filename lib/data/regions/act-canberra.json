@@ -1,0 +1,81 @@
+{
+  "region": "act-canberra",
+  "lastUpdated": "2025-01-02",
+  "venues": [
+    {
+      "id": "gungahlin-owl-pizza",
+      "name": "Owl Pizza",
+      "area": "gungahlin",
+      "address": "53 Efkarpidis Street, Gungahlin ACT 2912",
+      "days": ["tuesday"],
+      "details": "Kids eat free with every adult main purchased. Valid for children under 12.",
+      "membershipRequired": false,
+      "membershipDetails": null,
+      "website": "https://www.owlpizza.com.au",
+      "phone": ["+61-2-6100-0000"],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place/Owl+Pizza",
+          "icon": "star"
+        }
+      ],
+      "verifiedDate": "2025-01-02",
+      "active": true,
+      "tags": ["pizza", "italian", "family-friendly"]
+    },
+    {
+      "id": "belconnen-club",
+      "name": "Belconnen Community Club",
+      "area": "belconnen",
+      "address": "123 Emu Bank, Belconnen ACT 2617",
+      "days": ["wednesday"],
+      "details": "Free kids meal from the kids menu with any adult main. Limit 2 kids per adult.",
+      "membershipRequired": true,
+      "membershipDetails": "Must be a club member (membership is free, sign up at venue)",
+      "website": "https://www.belconnenclub.com.au",
+      "phone": ["+61-2-6251-0000"],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place",
+          "icon": "star"
+        },
+        {
+          "type": "facebook",
+          "label": "Facebook",
+          "url": "https://facebook.com/belconnenclub",
+          "icon": "facebook"
+        }
+      ],
+      "verifiedDate": "2025-01-01",
+      "active": true,
+      "tags": ["club", "bistro", "family-friendly"]
+    },
+    {
+      "id": "city-hogs-breath",
+      "name": "Hog's Breath Cafe",
+      "area": "city",
+      "address": "150 Bunda Street, Canberra City ACT 2601",
+      "days": ["tuesday", "sunday"],
+      "details": "Kids eat free from the kids menu with any adult main purchase.",
+      "membershipRequired": false,
+      "membershipDetails": null,
+      "website": "https://www.hogsbreath.com.au",
+      "phone": ["+61-2-6248-0000", "+61-2-6248-0001"],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place",
+          "icon": "star"
+        }
+      ],
+      "verifiedDate": "2025-01-02",
+      "active": true,
+      "tags": ["steakhouse", "family", "casual-dining"]
+    }
+  ]
+}
