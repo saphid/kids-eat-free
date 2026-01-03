@@ -3,6 +3,10 @@ export interface Venue {
   name: string;
   area: string;
   address: string;
+  latitude?: number;
+  longitude?: number;
+  suburb?: string;
+  postcode?: string;
   days: DayOfWeek[];
   details: string;
   membershipRequired: boolean;
@@ -36,6 +40,13 @@ export interface VenueFilters {
   area?: string | 'all';
   region?: string;
   searchQuery?: string;
+  locationMode?: 'area' | 'nearby';
+  userLocation?: {
+    latitude: number;
+    longitude: number;
+  } | null;
+  radiusKm?: number;
+  manualLocation?: string;
 }
 
 export interface Area {

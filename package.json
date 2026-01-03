@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "validate-data": "bun scripts/validate-data.js"
+    "validate-data": "bun scripts/validate-data.js",
+    "geocode-venues": "bun scripts/geocode-venues.js"
   },
   "dependencies": {
     "next": "14.2.15",
