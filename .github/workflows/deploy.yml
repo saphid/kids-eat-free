@@ -37,7 +37,7 @@ jobs:
       - name: Build Next.js site
         run: bun run build
         env:
-          NEXT_PUBLIC_BASE_PATH: /daegu
+          NEXT_PUBLIC_BASE_PATH: /kids-eat-free
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
