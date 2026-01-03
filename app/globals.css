@@ -3,25 +3,354 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 249, 250, 251;
-  --background-end-rgb: 255, 255, 255;
+  /* Primary cool palette - Deep Teal */
+  --color-primary: #0D9488;
+  --color-primary-light: #14B8A6;
+  --color-primary-dark: #0F766E;
+  
+  /* Secondary colors */
+  --color-accent: #F59E0B;
+  --color-accent-light: #FBBF24;
+  --color-accent-dark: #D97706;
+  
+  /* Accent - complementary */
+  --color-sage: #84CC16;
+  --color-rose: #F472B6;
+  
+  /* Light mode neutrals */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8FAFC;
+  --color-bg-tertiary: #F1F5F9;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #64748B;
+  --color-border: #E2E8F0;
+  --color-border-hover: #CBD5E1;
+  
+  /* Dark neutrals (for dark mode) */
+  --color-midnight: #0F172A;
+  --color-slate-dark: #1E293B;
+  --color-slate-mid: #334155;
+  --color-slate-light: #64748B;
+  --color-silver: #CBD5E1;
+  --color-pearl: #F1F5F9;
+  
+  /* Day colors - vibrant */
+  --day-monday: #6366F1;
+  --day-tuesday: #14B8A6;
+  --day-wednesday: #F59E0B;
+  --day-thursday: #A855F7;
+  --day-friday: #EC4899;
+  --day-saturday: #3B82F6;
+  --day-sunday: #EF4444;
+  
+  /* Shadows - light mode (softer) */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+  
+  /* Glow effects - lighter for light mode */
+  --glow-primary: 0 0 20px rgba(13, 148, 136, 0.2);
+  --glow-accent: 0 0 20px rgba(245, 158, 11, 0.2);
+  
+  /* Border radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 17, 24, 39;
-    --background-end-rgb: 31, 41, 55;
+/* Dark mode overrides */
+.dark {
+  /* Dark mode shadows - deeper */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.15);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.15);
+  
+  /* Dark mode glow effects */
+  --glow-primary: 0 0 20px rgba(13, 148, 136, 0.4);
+  --glow-accent: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-text-primary;
+    font-feature-settings: "ss01", "ss02", "cv01";
+  }
+  
+  .dark body {
+    @apply bg-midnight text-silver;
+  }
+  
+  ::selection {
+    @apply bg-primary/20 text-primary-dark;
+  }
+  
+  .dark ::selection {
+    @apply bg-primary/30 text-primary-light;
+  }
+  
+  /* Custom scrollbar - light mode */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-secondary;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-tertiary;
+  }
+  
+  /* Custom scrollbar - dark mode */
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-slate-dark;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-slate-mid rounded-full;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-light;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer components {
+  /* Button styles */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 font-medium rounded-xl transition-all duration-200 ease-out;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-midnight;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-light active:scale-[0.98];
+    @apply focus-visible:ring-primary;
+    box-shadow: var(--glow-primary);
+  }
+  
+  .btn-secondary {
+    @apply bg-bg-secondary text-text-primary border border-border hover:bg-bg-tertiary hover:border-border-hover active:scale-[0.98];
+    @apply focus-visible:ring-primary;
+  }
+  
+  .dark .btn-secondary {
+    @apply bg-slate-dark text-silver border border-slate-mid hover:bg-slate-mid hover:border-slate-light;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-text-tertiary hover:bg-bg-secondary active:scale-[0.98];
+  }
+  
+  .dark .btn-ghost {
+    @apply text-slate-light hover:bg-white/5;
+  }
+  
+  /* Card styles */
+  .card {
+    @apply bg-bg-primary rounded-2xl shadow-lg border border-border;
+    @apply transition-all duration-300 ease-out;
+    @apply overflow-visible;
+  }
+  
+  .dark .card {
+    @apply bg-slate-dark border-slate-mid/50;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-xl hover:-translate-y-1 hover:border-primary/30;
+  }
+  
+  /* Input styles */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border border-border bg-bg-primary;
+    @apply text-text-primary placeholder:text-text-tertiary;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary;
+  }
+  
+  .dark .input {
+    @apply border-slate-mid bg-midnight text-pearl placeholder:text-slate-light;
+  }
+  
+  /* Day pill styles */
+  .day-pill {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-white;
+    @apply shadow-md;
+  }
+  
+  .day-monday { background-color: var(--day-monday); }
+  .day-tuesday { background-color: var(--day-tuesday); }
+  .day-wednesday { background-color: var(--day-wednesday); }
+  .day-thursday { background-color: var(--day-thursday); }
+  .day-friday { background-color: var(--day-friday); }
+  .day-saturday { background-color: var(--day-saturday); }
+  .day-sunday { background-color: var(--day-sunday); }
+  
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .badge-location {
+    @apply bg-primary/10 text-primary-dark border border-primary/20;
+  }
+  
+  .dark .badge-location {
+    @apply bg-primary/20 text-primary-light border-primary/30;
+  }
+  
+  .badge-distance {
+    @apply bg-sage/10 text-sage border border-sage/20;
+  }
+  
+  .dark .badge-distance {
+    @apply bg-sage/20 border-sage/30;
+  }
+  
+  .badge-membership {
+    @apply bg-accent/10 text-accent-dark border border-accent/20;
+  }
+  
+  .dark .badge-membership {
+    @apply bg-accent/20 text-accent-light border-accent/30;
+  }
+  
+  /* Gradient backgrounds */
+  .gradient-hero {
+    background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 40%, var(--color-primary-light) 100%);
+  }
+  
+  .dark .gradient-hero {
+    background: linear-gradient(135deg, var(--color-midnight) 0%, var(--color-slate-dark) 40%, var(--color-primary-dark) 100%);
+  }
+  
+  .gradient-subtle {
+    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+  }
+  
+  .dark .gradient-subtle {
+    background: linear-gradient(180deg, var(--color-midnight) 0%, var(--color-slate-dark) 100%);
+  }
+  
+  /* Pattern overlay - subtle dots for light mode */
+  .pattern-dots {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(0,0,0,0.02) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  .dark .pattern-dots {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255,255,255,0.02) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, rgba(255,255,255,0.02) 1px, transparent 1px);
+  }
+  
+  /* Aurora glow effect - lighter for light mode */
+  .aurora-glow {
+    position: relative;
+  }
+  
+  .aurora-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(13, 148, 136, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 30% at 30% 20%, rgba(245, 158, 11, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  .dark .aurora-glow::before {
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(13, 148, 136, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 30% at 30% 20%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from { 
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px rgba(13, 148, 136, 0.3);
+    }
+    to {
+      box-shadow: 0 0 25px rgba(13, 148, 136, 0.5);
+    }
+  }
+  
+  /* Staggered animation delays */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  
+  /* Glass effect */
+  .glass {
+    @apply bg-bg-primary/70 backdrop-blur-lg border border-border/50;
+  }
+  
+  .dark .glass {
+    @apply bg-slate-dark/70 border-white/5;
+  }
+  
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
 }

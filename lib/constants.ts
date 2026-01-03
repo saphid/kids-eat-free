@@ -31,11 +31,31 @@ export const dayShortNames: Record<DayOfWeek, string> = {
 };
 
 export const dayColors: Record<DayOfWeek, string> = {
-  monday: 'bg-blue-500',
-  tuesday: 'bg-green-500',
-  wednesday: 'bg-yellow-500',
-  thursday: 'bg-orange-500',
-  friday: 'bg-red-500',
-  saturday: 'bg-purple-500',
-  sunday: 'bg-pink-500',
+  monday: 'day-monday',
+  tuesday: 'day-tuesday',
+  wednesday: 'day-wednesday',
+  thursday: 'day-thursday',
+  friday: 'day-friday',
+  saturday: 'day-saturday',
+  sunday: 'day-sunday',
+};
+
+export const dayBgColors: Record<DayOfWeek, string> = {
+  monday: 'bg-day-monday',
+  tuesday: 'bg-day-tuesday',
+  wednesday: 'bg-day-wednesday',
+  thursday: 'bg-day-thursday',
+  friday: 'bg-day-friday',
+  saturday: 'bg-day-saturday',
+  sunday: 'bg-day-sunday',
+};
+
+export const dayTextColors: Record<DayOfWeek, string> = {
+  monday: 'text-day-monday',
+  tuesday: 'text-day-tuesday',
+  wednesday: 'text-day-wednesday',
+  thursday: 'text-day-thursday',
+  friday: 'text-day-friday',
+  saturday: 'text-day-saturday',
+  sunday: 'text-day-sunday',
 };
