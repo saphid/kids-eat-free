@@ -1,7 +1,8 @@
 'use client';
 
+import React from 'react';
 import { Venue } from '@/lib/types';
-import { dayDisplayNames, dayColors } from '@/lib/constants';
+import { dayDisplayNames, dayColors, dayShortNames } from '@/lib/constants';
 import { getVerificationStatus } from '@/lib/utils';
 import {
   MapPin,
@@ -11,15 +12,20 @@ import {
   Facebook,
   Instagram,
   ExternalLink,
+  Navigation,
+  ChevronDown,
 } from 'lucide-react';
 
 interface VenueCardProps {
   venue: Venue;
   areaDisplayName: string;
+  distanceKm?: number;
 }
 
-export default function VenueCard({ venue, areaDisplayName }: VenueCardProps) {
+export default function VenueCard({ venue, areaDisplayName, distanceKm }: VenueCardProps) {
   const verificationStatus = getVerificationStatus(venue.verifiedDate);
+
+  const [phoneDropdownOpen, setPhoneDropdownOpen] = React.useState(false);
 
   const getIconForExtraDetail = (iconName?: string) => {
     switch (iconName) {
@@ -37,24 +43,30 @@ export default function VenueCard({ venue, areaDisplayName }: VenueCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 p-6 border border-gray-200">
       <div className="flex flex-col gap-4">
+        {/* Venue Name with Day Badges */}
         <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-semibold text-gray-900">{venue.name}</h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-xl font-semibold text-gray-900">{venue.name}</h3>
+            {venue.days.map((day) => (
+              <span
+                key={day}
+                className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold text-white ${dayColors[day]}`}
+              >
+                {dayShortNames[day]}
+              </span>
+            ))}
+          </div>
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
               <MapPin className="w-3 h-3 mr-1" />
               {areaDisplayName}
             </span>
-            {venue.days.map((day) => (
-              <span
-                key={day}
-                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white ${dayColors[day]}`}
-              >
-                {dayDisplayNames[day]}
-              </span>
-            ))}
-            {venue.membershipRequired && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                Membership Required
+            {distanceKm !== undefined && (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <Navigation className="w-3 h-3 mr-1" />
+                {distanceKm < 1
+                  ? `${Math.round(distanceKm * 1000)}m away`
+                  : `${distanceKm.toFixed(1)}km away`}
               </span>
             )}
           </div>
@@ -92,16 +104,46 @@ export default function VenueCard({ venue, areaDisplayName }: VenueCardProps) {
             <Globe className="w-4 h-4 mr-2" />
             Website
           </a>
-          {venue.phone.map((phoneNumber, index) => (
-            <a
-              key={index}
-              href={`tel:${phoneNumber}`}
-              className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-            >
-              <Phone className="w-4 h-4 mr-2" />
-              {phoneNumber}
-            </a>
-          ))}
+          {venue.phone.length > 0 && (
+            <div className="relative">
+              {venue.phone.length === 1 ? (
+                <a
+                  href={`tel:${venue.phone[0]}`}
+                  className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                >
+                  <Phone className="w-4 h-4 mr-2" />
+                  {venue.phone[0]}
+                </a>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setPhoneDropdownOpen(!phoneDropdownOpen)}
+                    className="inline-flex items-center justify-between px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 min-w-[160px]"
+                  >
+                    <span className="inline-flex items-center">
+                      <Phone className="w-4 h-4 mr-2" />
+                      {venue.phone[0]}
+                    </span>
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </button>
+                  {phoneDropdownOpen && (
+                    <div className="absolute top-full left-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 min-w-full">
+                      {venue.phone.slice(1).map((phoneNumber, index) => (
+                        <a
+                          key={index + 1}
+                          href={`tel:${phoneNumber}`}
+                          onClick={() => setPhoneDropdownOpen(false)}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-md last:rounded-b-md"
+                        >
+                          {phoneNumber}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </div>
 
         {venue.extraDetails && venue.extraDetails.length > 0 && (

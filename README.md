@@ -8,6 +8,9 @@ A static website displaying restaurants and venues in Canberra where kids eat fr
 
 - Filter venues by day of the week
 - Filter by geographic area (Gungahlin, Belconnen, City, Tuggeranong, Woden, Queanbeyan)
+- **Find venues near your current location (GPS)**
+- **Search by radius (5km, 10km, 15km)**
+- **Manual location entry (suburb/address)**
 - Mobile-first responsive design
 - Multiple days per venue support
 - Multiple phone numbers per venue
@@ -105,6 +108,10 @@ The static files will be generated in the `out/` directory.
 - **name** (required): Venue name
 - **area** (required): Area slug (must exist in metadata.json)
 - **address** (required): Full street address
+- **latitude** (optional): Coordinate for nearby filtering
+- **longitude** (optional): Coordinate for nearby filtering
+- **suburb** (optional): Extracted suburb for faster search
+- **postcode** (optional): Extracted postcode for faster search
 - **days** (required): Array of days (e.g., `["tuesday", "wednesday"]`)
 - **details** (required): Description of the offer
 - **membershipRequired** (required): `true` or `false`
@@ -115,6 +122,41 @@ The static files will be generated in the `out/` directory.
 - **verifiedDate** (required): ISO date string (YYYY-MM-DD)
 - **active** (required): `true` or `false`
 - **tags** (optional): Array of category tags
+
+## Adding Coordinates to Venues
+
+### Automatic Geocoding
+
+Run the batch geocoding script:
+
+```bash
+bun run geocode-venues
+```
+
+This will:
+1. Read all venue JSON files
+2. Geocode each address using OpenStreetMap Nominatim
+3. Add latitude, longitude, suburb, and postcode fields
+4. Update the JSON files in place
+
+**Note**: Nominatim has a rate limit of 1 request per second. For 100 venues, this will take approximately 2 minutes.
+
+### Manual Geocoding
+
+For individual venues, use https://geocode.maps.co/:
+
+1. Enter the venue address
+2. Copy the latitude and longitude
+3. Add to the venue object:
+
+```json
+{
+  "latitude": -35.2767,
+  "longitude": 149.1244,
+  "suburb": "Gungahlin",
+  "postcode": "2912"
+}
+```
 
 ### Valid Day Values
 
@@ -184,6 +226,7 @@ Edit `lib/data/regions/metadata.json`:
 - `bun start` - Start production server
 - `bun run lint` - Run ESLint
 - `bun run validate-data` - Validate JSON data files
+- `bun run geocode-venues` - Add coordinates to venue addresses
 
 ### Project Structure
 
