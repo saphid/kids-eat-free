@@ -6,6 +6,16 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      data_repo:
+        description: 'Optional: Data repository URL to fetch data from (e.g., https://github.com/user/data-repo)'
+        required: false
+        type: string
+      data_branch:
+        description: 'Branch of the data repository to use'
+        required: false
+        default: 'main'
+        type: string
 
 permissions:
   contents: read
@@ -22,6 +32,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Sync data from external repository
+        if: ${{ inputs.data_repo != '' }}
+        run: |
+          echo "Fetching data from external repository: ${{ inputs.data_repo }}"
+          # Remove existing data folder
+          rm -rf data
+          # Clone only the data we need
+          git clone --depth 1 --branch ${{ inputs.data_branch || 'main' }} ${{ inputs.data_repo }} temp-data
+          # Move data to the expected location
+          mv temp-data/data data || mv temp-data data
+          rm -rf temp-data
+          echo "Data synced successfully"
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2

@@ -1,0 +1,99 @@
+name: Sync Data and Deploy
+
+# This workflow syncs data from an external data repository and rebuilds the site.
+# It can be triggered:
+# 1. Manually via workflow_dispatch
+# 2. Via repository_dispatch from the data repository (requires setup in data repo)
+
+on:
+  repository_dispatch:
+    types: [data-updated]
+  workflow_dispatch:
+    inputs:
+      data_repo:
+        description: 'Data repository URL'
+        required: true
+        default: 'https://github.com/saphid/kids-eat-free-data'
+        type: string
+      data_branch:
+        description: 'Branch of the data repository'
+        required: false
+        default: 'main'
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout app repository
+        uses: actions/checkout@v4
+
+      - name: Determine data source
+        id: data-source
+        run: |
+          if [ -n "${{ github.event.client_payload.data_repo }}" ]; then
+            echo "repo=${{ github.event.client_payload.data_repo }}" >> $GITHUB_OUTPUT
+            echo "branch=${{ github.event.client_payload.data_branch || 'main' }}" >> $GITHUB_OUTPUT
+          else
+            echo "repo=${{ inputs.data_repo }}" >> $GITHUB_OUTPUT
+            echo "branch=${{ inputs.data_branch || 'main' }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Sync data from external repository
+        run: |
+          echo "Fetching data from: ${{ steps.data-source.outputs.repo }}"
+          echo "Branch: ${{ steps.data-source.outputs.branch }}"
+          
+          # Remove existing data folder
+          rm -rf data
+          
+          # Clone only the data we need
+          git clone --depth 1 --branch ${{ steps.data-source.outputs.branch }} ${{ steps.data-source.outputs.repo }} temp-data
+          
+          # Check if data is in a 'data' subfolder or at root
+          if [ -d "temp-data/data" ]; then
+            mv temp-data/data data
+          else
+            mv temp-data data
+          fi
+          
+          rm -rf temp-data .git 2>/dev/null || true
+          echo "✅ Data synced successfully"
+          
+          # Show what we got
+          echo "📁 Data structure:"
+          ls -la data/
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Validate JSON data
+        run: bun run validate-data
+
+      - name: Build Next.js site
+        run: bun run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: /kids-eat-free
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

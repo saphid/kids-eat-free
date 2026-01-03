@@ -1,0 +1,76 @@
+{
+  "$schema": "./schema/metadata.schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-03",
+  "regions": {
+    "act-canberra": {
+      "id": "act-canberra",
+      "name": "Canberra, ACT",
+      "country": "Australia",
+      "timezone": "Australia/Sydney",
+      "priority": 1,
+      "defaultCenter": {
+        "latitude": -35.2809,
+        "longitude": 149.1300
+      },
+      "areas": {
+        "gungahlin": {
+          "name": "gungahlin",
+          "displayName": "Gungahlin"
+        },
+        "belconnen": {
+          "name": "belconnen",
+          "displayName": "Belconnen"
+        },
+        "city": {
+          "name": "city",
+          "displayName": "Canberra City"
+        },
+        "dickson": {
+          "name": "dickson",
+          "displayName": "Dickson"
+        },
+        "kingston": {
+          "name": "kingston",
+          "displayName": "Kingston"
+        },
+        "tuggeranong": {
+          "name": "tuggeranong",
+          "displayName": "Tuggeranong"
+        },
+        "woden": {
+          "name": "woden",
+          "displayName": "Woden"
+        },
+        "weston-creek": {
+          "name": "weston-creek",
+          "displayName": "Weston Creek"
+        },
+        "mawson": {
+          "name": "mawson",
+          "displayName": "Mawson"
+        },
+        "hackett": {
+          "name": "hackett",
+          "displayName": "Hackett"
+        },
+        "ainslie": {
+          "name": "ainslie",
+          "displayName": "Ainslie"
+        },
+        "weston": {
+          "name": "weston",
+          "displayName": "Weston"
+        },
+        "queanbeyan": {
+          "name": "queanbeyan",
+          "displayName": "Queanbeyan (NSW)"
+        }
+      },
+      "files": {
+        "venues": "regions/act-canberra/venues.json",
+        "suburbs": "regions/act-canberra/suburbs.json"
+      }
+    }
+  }
+}
