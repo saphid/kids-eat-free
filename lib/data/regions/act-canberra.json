@@ -638,7 +638,7 @@
       "id": "ginninderra-labor-club",
       "name": "Ginninderra Labor Club",
       "area": "belconnen",
-      "address": "Tillyard Drive, Charnwood ACT 2615",
+      "address": "Corner Lhotsky Street and Charnwood Place, Charnwood ACT 2615",
       "latitude": -35.2005,
       "longitude": 149.0345,
       "suburb": "Charnwood",
@@ -851,7 +851,7 @@
       "id": "rashays-belconnen",
       "name": "Rashays Belconnen",
       "area": "belconnen",
-      "address": "Westfield Belconnen, Belconnen ACT 2617",
+      "address": "Level 3, Shop 126B, 127 Benjamin Way, Belconnen ACT 2617",
       "latitude": -35.2389,
       "longitude": 149.0665,
       "suburb": "Belconnen",
@@ -1630,8 +1630,10 @@
       "details": "Kids eat free on Mondays. Asian restaurant.",
       "membershipRequired": false,
       "membershipDetails": null,
-      "website": "https://www.thehungrybuddha.com.au/",
-      "phone": [],
+      "website": "https://thehungrybuddha.com.au/",
+      "phone": [
+        "+61-2-5136-9017"
+      ],
       "extraDetails": [
         {
           "type": "google_reviews",
@@ -1651,18 +1653,20 @@
     {
       "id": "two-blind-mice",
       "name": "Two Blind Mice",
-      "area": "city",
-      "address": "Shop 4, 17 Garema Place, Canberra City ACT 2601",
-      "suburb": "Canberra City",
-      "postcode": "2601",
+      "area": "braddon",
+      "address": "30 Lonsdale Street, Braddon ACT 2612",
+      "suburb": "Braddon",
+      "postcode": "2612",
       "days": [
         "thursday"
       ],
-      "details": "Kids eat free on Thursdays.",
+      "details": "Kids eat free on Thursdays. Popular pub in Braddon.",
       "membershipRequired": false,
       "membershipDetails": null,
-      "website": "https://www.twoblindmice.com.au/",
-      "phone": [],
+      "website": "https://www.facebook.com/twoblindmicebraddon",
+      "phone": [
+        "+61-2-6247-4747"
+      ],
       "extraDetails": [
         {
           "type": "google_reviews",
