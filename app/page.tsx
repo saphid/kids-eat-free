@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import FilterBar from '@/components/FilterBar';
 import VenueList from '@/components/VenueList';
 import { Venue, VenueFilters, DayOfWeek } from '@/lib/types';
 import { filterVenues, sortVenues, sortVenuesByDistance, getAreasForRegion } from '@/lib/utils';
-import { geocodeAddress, getLocationSuggestions, AutocompleteSuggestion } from '@/lib/geocoding';
-import metadata from '@/lib/data/regions/metadata.json';
-import canberraData from '@/lib/data/regions/act-canberra.json';
+import { geocodeAddress, getLocationSuggestions, AutocompleteSuggestion, setSuburbsCache } from '@/lib/geocoding';
+// Data loaded from the data folder (can be replaced by a different data source)
+import metadata from '@/data/metadata.json';
+import canberraData from '@/data/regions/act-canberra/venues.json';
+import canberraSuburbs from '@/data/regions/act-canberra/suburbs.json';
 import { Utensils, MapPin, Calendar, Sparkles, Star } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 
@@ -25,6 +27,11 @@ export default function Home() {
   const [isGeocoding, setIsGeocoding] = useState<boolean>(false);
   const [geocodingError, setGeocodingError] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
+
+  // Initialize suburb cache on mount
+  useEffect(() => {
+    setSuburbsCache(canberraSuburbs.suburbs, selectedRegion);
+  }, [selectedRegion]);
 
   const areas = getAreasForRegion(selectedRegion);
 

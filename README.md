@@ -1,13 +1,13 @@
-# Kids Eat Free Canberra
+# Kids Eat Free
 
-A static website displaying restaurants and venues in Canberra where kids eat free. Filterable by day and location, with easy extensibility to other regions.
+A static website displaying restaurants and venues where kids eat free. Designed with a **separated data architecture** that allows different cities/regions to use the same codebase with their own venue data.
 
 **Live Site:** [Coming Soon]
 
 ## Features
 
 - Filter venues by day of the week
-- Filter by geographic area (Gungahlin, Belconnen, City, Tuggeranong, Woden, Queanbeyan)
+- Filter by geographic area
 - **Find venues near your current location (GPS)**
 - **Search by radius (5km, 10km, 15km)**
 - **Manual location entry (suburb/address)**
@@ -20,6 +20,61 @@ A static website displaying restaurants and venues in Canberra where kids eat fr
 - PR-based contribution workflow
 - Free hosting on GitHub Pages
 - Zero infrastructure costs
+
+## Architecture: App + Data Separation
+
+This project uses a **separated architecture** where the website code and venue data can be maintained independently:
+
+```
+kids-eat-free/          # This repository (website code)
+├── app/                # Next.js application
+├── components/         # React components
+├── lib/                # Utilities and types
+└── data/               # Venue data (can be replaced)
+    ├── metadata.json   # Region definitions
+    ├── config.json     # Data configuration
+    └── regions/
+        └── act-canberra/
+            ├── venues.json    # Venue data
+            └── suburbs.json   # Location autocomplete data
+```
+
+### Benefits
+
+1. **Multiple Cities**: Fork this repo and replace the `data/` folder with your city's data
+2. **Separate Maintenance**: Data contributors don't need to touch the app code
+3. **Easy Updates**: Update venue data without redeploying the entire app
+4. **Data Repository**: Extract `data/` folder into its own repo for independent versioning
+
+### Using External Data
+
+You can use data from a separate repository in two ways:
+
+#### Option 1: Replace data folder before build
+
+```bash
+rm -rf data
+git clone https://github.com/your-org/your-data-repo.git data
+bun run build
+```
+
+#### Option 2: Use the GitHub Action with external data
+
+Trigger the "Sync Data and Deploy" workflow with your data repository URL.
+
+#### Option 3: Repository dispatch from data repo
+
+Add this to your data repository's GitHub Actions to auto-trigger site rebuilds:
+
+```yaml
+- name: Trigger site rebuild
+  run: |
+    curl -X POST \
+      -H "Authorization: token ${{ secrets.SITE_REPO_TOKEN }}" \
+      -H "Accept: application/vnd.github.v3+json" \
+      https://api.github.com/repos/YOUR-ORG/kids-eat-free/dispatches \
+      -d '{"event_type":"data-updated","client_payload":{"data_repo":"https://github.com/YOUR-ORG/your-data-repo"}}'
+```
 
 ## Technology Stack
 
@@ -41,8 +96,8 @@ A static website displaying restaurants and venues in Canberra where kids eat fr
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/daegu.git
-cd daegu
+git clone https://github.com/saphid/kids-eat-free.git
+cd kids-eat-free
 ```
 
 2. Install dependencies:
@@ -69,7 +124,7 @@ The static files will be generated in the `out/` directory.
 
 ### Via GitHub Web Interface (Recommended)
 
-1. Navigate to `lib/data/regions/act-canberra.json`
+1. Navigate to `data/regions/act-canberra/venues.json`
 2. Click "Edit this file"
 3. Add a new venue object to the `venues` array:
 ```json
@@ -78,6 +133,10 @@ The static files will be generated in the `out/` directory.
   "name": "Venue Name",
   "area": "gungahlin",
   "address": "Full address",
+  "latitude": -35.2767,
+  "longitude": 149.1244,
+  "suburb": "Suburb",
+  "postcode": "2912",
   "days": ["tuesday", "wednesday"],
   "details": "Offer details and conditions",
   "membershipRequired": false,
@@ -123,6 +182,21 @@ The static files will be generated in the `out/` directory.
 - **active** (required): `true` or `false`
 - **tags** (optional): Array of category tags
 
+### Valid Day Values
+
+```json
+["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+```
+
+### Extra Detail Types
+
+- `google_reviews` - Google Reviews link
+- `facebook` - Facebook page
+- `instagram` - Instagram profile
+- `tripadvisor` - TripAdvisor page
+- `yelp` - Yelp listing
+- `other` - Custom link
+
 ## Adding Coordinates to Venues
 
 ### Automatic Geocoding
@@ -139,7 +213,7 @@ This will:
 3. Add latitude, longitude, suburb, and postcode fields
 4. Update the JSON files in place
 
-**Note**: Nominatim has a rate limit of 1 request per second. For 100 venues, this will take approximately 2 minutes.
+**Note**: Nominatim has a rate limit of 1 request per second.
 
 ### Manual Geocoding
 
@@ -147,43 +221,16 @@ For individual venues, use https://geocode.maps.co/:
 
 1. Enter the venue address
 2. Copy the latitude and longitude
-3. Add to the venue object:
-
-```json
-{
-  "latitude": -35.2767,
-  "longitude": 149.1244,
-  "suburb": "Gungahlin",
-  "postcode": "2912"
-}
-```
-
-### Valid Day Values
-
-```json
-["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-```
-
-### Extra Detail Types
-
-- `google_reviews` - Google Reviews link
-- `facebook` - Facebook page
-- `instagram` - Instagram profile
-- `tripadvisor` - TripAdvisor page
-- `yelp` - Yelp listing
-- `other` - Custom link
+3. Add to the venue object
 
 ## Adding New Areas
 
-Edit `lib/data/regions/metadata.json`:
+Edit `data/metadata.json`:
 
 ```json
 {
   "regions": {
     "act-canberra": {
-      "name": "Canberra, ACT",
-      "country": "Australia",
-      "priority": 1,
       "areas": {
         "new-area": {
           "name": "new-area",
@@ -195,27 +242,18 @@ Edit `lib/data/regions/metadata.json`:
 }
 ```
 
-## Adding New Regions/States
+## Creating a Site for Your City
 
-1. Create a new file: `lib/data/regions/nsw-sydney.json`
-2. Add region metadata to `lib/data/regions/metadata.json`:
-```json
-{
-  "regions": {
-    "nsw-sydney": {
-      "name": "Sydney, NSW",
-      "country": "Australia",
-      "priority": 2,
-      "areas": {
-        "cbd": {"name": "cbd", "displayName": "Sydney CBD"},
-        "bondi": {"name": "bondi", "displayName": "Bondi"}
-      }
-    }
-  }
-}
-```
+1. **Fork this repository**
+2. **Replace the data folder** with your city's venue data:
+   - Create `data/regions/your-city/venues.json`
+   - Create `data/regions/your-city/suburbs.json`
+   - Update `data/metadata.json` with your region
+3. **Update imports** in `app/page.tsx` to load your region's data
+4. **Configure GitHub Pages** for your fork
+5. **Deploy!**
 
-3. Update the main page component to load the new region data
+See `data/README.md` for detailed documentation on the data format.
 
 ## Development
 
@@ -231,7 +269,7 @@ Edit `lib/data/regions/metadata.json`:
 ### Project Structure
 
 ```
-daegu/
+kids-eat-free/
 ├── app/                    # Next.js app directory
 │   ├── layout.tsx         # Root layout
 │   ├── page.tsx           # Home page
@@ -240,17 +278,28 @@ daegu/
 │   ├── VenueCard.tsx      # Venue card component
 │   ├── FilterBar.tsx      # Filter controls
 │   └── VenueList.tsx      # Venue grid
-├── lib/                   # Utilities and data
+├── lib/                   # Utilities
 │   ├── types.ts           # TypeScript interfaces
 │   ├── utils.ts           # Helper functions
 │   ├── constants.ts       # Constants
-│   └── data/regions/      # Data files
-│       ├── metadata.json  # Region configuration
-│       └── act-canberra.json  # Venue data
+│   ├── geocoding.ts       # Location utilities
+│   └── data-loader.ts     # Data loading utilities
+├── data/                  # Data directory (can be replaced)
+│   ├── README.md          # Data documentation
+│   ├── config.json        # Data repository config
+│   ├── metadata.json      # Region definitions
+│   ├── schema/            # Type definitions
+│   └── regions/           # Per-region data
+│       └── act-canberra/
+│           ├── venues.json
+│           └── suburbs.json
 ├── scripts/               # Build scripts
 │   └── validate-data.js   # JSON validation
-└── public/               # Static assets
-    └── robots.txt        # SEO configuration
+├── public/               # Static assets
+│   └── robots.txt        # SEO configuration
+└── .github/workflows/    # CI/CD
+    ├── deploy.yml        # Main deployment
+    └── sync-data.yml     # Sync from external data repo
 ```
 
 ## Contributing
@@ -258,9 +307,9 @@ daegu/
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/your-feature`)
 3. Make your changes
-4. Run tests (`npm run validate-data`)
-5. Commit your changes (`git commit -m 'Add some feature'`)
-6. Push to the branch (`git push origin feature/your-feature`)
+4. Run validation (`bun run validate-data`)
+5. Commit your changes
+6. Push to the branch
 7. Open a Pull Request
 
 ### Review Guidelines
@@ -281,12 +330,12 @@ This site uses GitHub Actions for automatic deployment to GitHub Pages.
 ### Automatic Deployment
 
 - Push to `main` branch triggers build and deploy
-- Pull requests trigger build-only
+- Pull requests trigger build-only validation
 - Site is deployed to GitHub Pages from the `out/` directory
 
 ### Manual Deployment
 
-1. Build the site: `npm run build`
+1. Build the site: `bun run build`
 2. The `out/` directory contains the static files
 3. Upload to any static hosting service
 
@@ -294,7 +343,7 @@ This site uses GitHub Actions for automatic deployment to GitHub Pages.
 
 - Static HTML generation
 - No server-side processing
-- Minimal JavaScript (~92KB first load)
+- Minimal JavaScript (~100KB first load)
 - Optimized for fast loading
 - Mobile-first responsive design
 
@@ -310,7 +359,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Support
 
-For issues, questions, or suggestions, please [open an issue](https://github.com/yourusername/daegu/issues).
+For issues, questions, or suggestions, please [open an issue](https://github.com/saphid/kids-eat-free/issues).
 
 ---
 

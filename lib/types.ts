@@ -61,6 +61,20 @@ export interface Region {
   areas: Record<string, Area>;
 }
 
+// Extended region metadata (from data repo)
+export interface RegionMetadata extends Region {
+  id: string;
+  timezone?: string;
+  defaultCenter?: {
+    latitude: number;
+    longitude: number;
+  };
+  files?: {
+    venues: string;
+    suburbs: string;
+  };
+}
+
 export interface RegionData {
   region: string;
   lastUpdated: string;
@@ -68,5 +82,7 @@ export interface RegionData {
 }
 
 export interface Metadata {
-  regions: Record<string, Region>;
+  regions: Record<string, RegionMetadata>;
+  version?: string;
+  lastUpdated?: string;
 }
