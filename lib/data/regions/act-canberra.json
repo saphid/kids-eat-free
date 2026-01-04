@@ -1,7 +1,7 @@
 {
   "region": "act-canberra",
-  "lastUpdated": "2025-01-03",
-  "notes": "Removed 3 venues: Owl Pizza (doesn't exist), Belconnen Community Club (incorrect URL pointing to community council), Let's Play Indoor Playground (not a restaurant, just a play centre with cafe)",
+  "lastUpdated": "2025-01-04",
+  "notes": "Removed 4 venues: Owl Pizza (doesn't exist), Belconnen Community Club (incorrect URL pointing to community council), Let's Play Indoor Playground (not a restaurant, just a play centre with cafe), Lighthouse Pub Belconnen (Facebook link was wrong restaurant, no evidence of kids eat free offer)",
   "venues": [
     {
       "id": "city-hogs-breath",
@@ -50,9 +50,10 @@
       "suburb": "Phillip",
       "postcode": "2606",
       "days": [
-        "wednesday"
+        "wednesday",
+        "thursday"
       ],
-      "details": "Buy 1 main meal (minimum $27) and receive 1 kid's main meal for a child 12 years or under FREE. Available all day. Kids enjoy the Henry's play area.",
+      "details": "Buy 1 main meal (minimum $27) and receive 1 kid's main meal for a child 12 years or under FREE. Available Wednesday and Thursday. Kids enjoy the Henry's play area.",
       "membershipRequired": true,
       "membershipDetails": "ACT residents must be a member or be signed in by a member",
       "website": "https://www.cscc.com.au/promotions/kids-eat-free/",
@@ -86,9 +87,10 @@
       "suburb": "Macquarie",
       "postcode": "2614",
       "days": [
-        "wednesday"
+        "wednesday",
+        "thursday"
       ],
-      "details": "Buy 1 main meal (minimum $27) and receive 1 kid's main meal for a child 12 years or under FREE. Available for lunch and dinner. Kids enjoy the Henry's play area.",
+      "details": "Buy 1 main meal (minimum $27) and receive 1 kid's main meal for a child 12 years or under FREE. Available Wednesday and Thursday for lunch and dinner. Kids enjoy the Henry's play area.",
       "membershipRequired": true,
       "membershipDetails": "ACT residents must be a member or be signed in by a member",
       "website": "https://www.cscc.com.au/promotions/kids-eat-free/",
@@ -166,13 +168,9 @@
       "days": [
         "monday",
         "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday"
+        "wednesday"
       ],
-      "details": "Kids under 8 eat free with any adult main meal purchase. Daily service available. Specializes in seafood and family dining.",
+      "details": "Kids under 8 eat free Monday to Wednesday with any adult main meal purchase. Specializes in seafood and family dining.",
       "membershipRequired": false,
       "membershipDetails": null,
       "website": "https://www.kickininn.com.au/kids-eat-free-woden/",
@@ -211,9 +209,13 @@
       "suburb": "Ainslie",
       "postcode": "2602",
       "days": [
-        "monday"
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
       ],
-      "details": "Kids eat free every Monday 5:30pm-8:30pm. With every adult meal purchased, receive a kids meal for free including complimentary ice cream and soft drink. Valid for children 12 and under.",
+      "details": "Kids eat free Monday to Friday. With every adult meal purchased, receive a kids meal for free including complimentary ice cream and soft drink. Valid for children 12 and under.",
       "membershipRequired": true,
       "membershipDetails": "Club membership required",
       "website": "https://ainsliegroup.com.au/event/kids-eat-free-monday/",
@@ -288,9 +290,9 @@
       "suburb": "Nicholls",
       "postcode": "2913",
       "days": [
-        "thursday"
+        "tuesday"
       ],
-      "details": "Kids eat free Thursday. 1 FREE kids meal with purchase of any adult main meal. Features an equipped playroom, making it perfect for families.",
+      "details": "Kids eat free Tuesday. 1 FREE kids meal with purchase of any adult main meal. Features an equipped playroom, making it perfect for families.",
       "membershipRequired": true,
       "membershipDetails": "Club membership required",
       "website": "https://ainsliegroup.com.au/venues/gungahlin-lakes-club/",
@@ -587,47 +589,6 @@
       ]
     },
     {
-      "id": "ginninderra-labor-club",
-      "name": "Ginninderra Labor Club",
-      "area": "belconnen",
-      "address": "105 Lathlain Street, Belconnen ACT 2617",
-      "latitude": -35.2443,
-      "longitude": 149.0659,
-      "suburb": "Belconnen",
-      "postcode": "2617",
-      "days": [
-        "sunday"
-      ],
-      "details": "Sunday Roast special available. Kids receive free paddle pop with meals Thursday-Saturday. Family-friendly dining venue.",
-      "membershipRequired": true,
-      "membershipDetails": "Club membership required",
-      "website": "https://ginninderralaborclub.com.au/dining/",
-      "phone": [
-        "+61-2-6258-8618"
-      ],
-      "extraDetails": [
-        {
-          "type": "google_reviews",
-          "label": "Google Reviews",
-          "url": "https://www.google.com/maps/place/Ginninderra+Labor+Club",
-          "icon": "star"
-        },
-        {
-          "type": "facebook",
-          "label": "Facebook",
-          "url": "https://facebook.com/ginninderraclub",
-          "icon": "facebook"
-        }
-      ],
-      "verifiedDate": "2025-01-03",
-      "active": true,
-      "tags": [
-        "club",
-        "bistro",
-        "family-friendly"
-      ]
-    },
-    {
       "id": "walshs-hotel-queanbeyan",
       "name": "Walsh's Hotel",
       "area": "queanbeyan",
@@ -671,6 +632,47 @@
         "pub",
         "family-friendly",
         "sports-bar"
+      ]
+    },
+    {
+      "id": "ginninderra-labor-club",
+      "name": "Ginninderra Labor Club",
+      "area": "belconnen",
+      "address": "Tillyard Drive, Charnwood ACT 2615",
+      "latitude": -35.2005,
+      "longitude": 149.0345,
+      "suburb": "Charnwood",
+      "postcode": "2615",
+      "days": [
+        "thursday"
+      ],
+      "details": "Kids eat free on Thursdays. Family-friendly club with bistro dining.",
+      "membershipRequired": true,
+      "membershipDetails": "Club membership required",
+      "website": "https://ginninderralaborclub.com.au/",
+      "phone": [
+        "+61-2-6258-8618"
+      ],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place/Ginninderra+Labor+Club",
+          "icon": "star"
+        },
+        {
+          "type": "facebook",
+          "label": "Facebook",
+          "url": "https://facebook.com/ginninderraclub",
+          "icon": "facebook"
+        }
+      ],
+      "verifiedDate": "2025-01-04",
+      "active": true,
+      "tags": [
+        "club",
+        "bistro",
+        "family-friendly"
       ]
     },
     {
@@ -799,48 +801,6 @@
       ]
     },
     {
-      "id": "lighthouse-pub-belconnen",
-      "name": "Lighthouse Pub",
-      "area": "belconnen",
-      "address": "23 Lathlain Street, Belconnen ACT 2617",
-      "latitude": -35.2412,
-      "longitude": 149.0678,
-      "suburb": "Belconnen",
-      "postcode": "2617",
-      "days": [
-        "sunday"
-      ],
-      "details": "Kids eat free Sundays (both lunch and dinner service). Located on the shores of Lake Ginninderra with outdoor undercover area and lake views. Live music on Sundays. Kids menu includes chicken nuggets, cheese pizza, and more.",
-      "membershipRequired": false,
-      "membershipDetails": null,
-      "website": "https://www.lighthousepub.com.au/",
-      "phone": [
-        "+61-2-6251-3333"
-      ],
-      "extraDetails": [
-        {
-          "type": "google_reviews",
-          "label": "Google Reviews",
-          "url": "https://www.google.com/maps/place/Lighthouse+Pub",
-          "icon": "star"
-        },
-        {
-          "type": "facebook",
-          "label": "Facebook",
-          "url": "https://facebook.com/lighthouse.hotelmotel",
-          "icon": "facebook"
-        }
-      ],
-      "verifiedDate": "2025-01-03",
-      "active": true,
-      "tags": [
-        "pub",
-        "family-friendly",
-        "lake-views",
-        "live-music"
-      ]
-    },
-    {
       "id": "bbqtown-belconnen",
       "name": "BBQTOWN Belconnen",
       "area": "belconnen",
@@ -897,12 +857,11 @@
       "suburb": "Belconnen",
       "postcode": "2617",
       "days": [
-        "saturday",
-        "sunday"
+        "monday"
       ],
-      "details": "Kids eat free all weekend. Family-friendly cafe and restaurant. Open Monday-Friday 8:00 AM - 10:00 PM.",
-      "membershipRequired": false,
-      "membershipDetails": null,
+      "details": "Kids eat free on Mondays. Family-friendly cafe and restaurant.",
+      "membershipRequired": true,
+      "membershipDetails": "Membership required",
       "website": "https://rashays.com/find-us/restaurants/belconnen/",
       "phone": [
         "+61-2-6251-6600"
@@ -946,15 +905,9 @@
       "suburb": "Phillip",
       "postcode": "2606",
       "days": [
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday"
+        "tuesday"
       ],
-      "details": "Kids Eat Free with purchase of adult main meal (minimum $27). Children 12 years or under eat free from kids menu. Features Henry's family-friendly restaurant and Parrilla Grill. $7 Kids' Lunch Specials available during school holidays.",
+      "details": "Kids Eat Free on Tuesdays with purchase of adult main meal (minimum $27). Children 12 years or under eat free from kids menu. Features Henry's family-friendly restaurant and Parrilla Grill.",
       "membershipRequired": true,
       "membershipDetails": "Club membership required",
       "website": "https://www.southboundclub.com.au/eatanddrink",
@@ -1036,9 +989,10 @@
       "suburb": "Phillip",
       "postcode": "2606",
       "days": [
-        "friday"
+        "friday",
+        "saturday"
       ],
-      "details": "Kids Eat Free on Fridays. Family dining with modern Australian cuisine. Booking recommended.",
+      "details": "Kids Eat Free after 5pm on Fridays and Saturdays. Family dining with modern Australian cuisine. Booking recommended.",
       "membershipRequired": false,
       "membershipDetails": null,
       "website": "https://www.number10restaurantandbar.com/",
@@ -1588,6 +1542,188 @@
         "restaurant",
         "family-friendly",
         "modern-australian"
+      ]
+    },
+    {
+      "id": "who-lazy-su",
+      "name": "Who Lazy Su",
+      "area": "city",
+      "address": "Canberra ACT",
+      "latitude": -35.2809,
+      "longitude": 149.1300,
+      "suburb": "Canberra City",
+      "postcode": "2601",
+      "days": [
+        "sunday"
+      ],
+      "details": "Free bento boxes for kids on Sundays. Asian fusion restaurant.",
+      "membershipRequired": false,
+      "membershipDetails": null,
+      "website": "https://www.instagram.com/wholazysu/",
+      "phone": [],
+      "extraDetails": [
+        {
+          "type": "instagram",
+          "label": "Instagram",
+          "url": "https://instagram.com/wholazysu",
+          "icon": "instagram"
+        }
+      ],
+      "verifiedDate": "2025-01-04",
+      "active": true,
+      "tags": [
+        "asian",
+        "bento",
+        "family-friendly"
+      ]
+    },
+    {
+      "id": "canberra-irish-club",
+      "name": "Canberra Irish Club",
+      "area": "weston",
+      "address": "6 Parkinson Street, Weston ACT 2611",
+      "latitude": -35.3341,
+      "longitude": 149.0512,
+      "suburb": "Weston",
+      "postcode": "2611",
+      "days": [
+        "sunday"
+      ],
+      "details": "Kids eat free on Sundays. Family-friendly Irish club with bistro dining.",
+      "membershipRequired": true,
+      "membershipDetails": "Club membership required",
+      "website": "https://www.canberrairishclub.com.au/",
+      "phone": [
+        "+61-2-6287-2422"
+      ],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place/Canberra+Irish+Club",
+          "icon": "star"
+        },
+        {
+          "type": "facebook",
+          "label": "Facebook",
+          "url": "https://facebook.com/CanberraIrishClub",
+          "icon": "facebook"
+        }
+      ],
+      "verifiedDate": "2025-01-04",
+      "active": true,
+      "tags": [
+        "club",
+        "irish",
+        "bistro",
+        "family-friendly"
+      ]
+    },
+    {
+      "id": "the-hungry-buddha",
+      "name": "The Hungry Buddha",
+      "area": "city",
+      "address": "Canberra ACT",
+      "latitude": -35.2809,
+      "longitude": 149.1300,
+      "suburb": "Canberra City",
+      "postcode": "2601",
+      "days": [
+        "monday"
+      ],
+      "details": "Kids eat free on Mondays. Asian restaurant.",
+      "membershipRequired": false,
+      "membershipDetails": null,
+      "website": "https://www.thehungrybuddha.com.au/",
+      "phone": [],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place/The+Hungry+Buddha",
+          "icon": "star"
+        }
+      ],
+      "verifiedDate": "2025-01-04",
+      "active": true,
+      "tags": [
+        "asian",
+        "restaurant",
+        "family-friendly"
+      ]
+    },
+    {
+      "id": "two-blind-mice",
+      "name": "Two Blind Mice",
+      "area": "city",
+      "address": "Canberra ACT",
+      "latitude": -35.2809,
+      "longitude": 149.1300,
+      "suburb": "Canberra City",
+      "postcode": "2601",
+      "days": [
+        "thursday"
+      ],
+      "details": "Kids eat free on Thursdays.",
+      "membershipRequired": false,
+      "membershipDetails": null,
+      "website": "https://www.twoblindmice.com.au/",
+      "phone": [],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place/Two+Blind+Mice",
+          "icon": "star"
+        }
+      ],
+      "verifiedDate": "2025-01-04",
+      "active": true,
+      "tags": [
+        "restaurant",
+        "family-friendly"
+      ]
+    },
+    {
+      "id": "the-bavarian-canberra",
+      "name": "The Bavarian",
+      "area": "city",
+      "address": "Canberra Centre, Bunda Street, Canberra City ACT 2601",
+      "latitude": -35.2795,
+      "longitude": 149.1305,
+      "suburb": "Canberra City",
+      "postcode": "2601",
+      "days": [
+        "sunday"
+      ],
+      "details": "Kids eat free on Sundays. German-style restaurant and beer hall.",
+      "membershipRequired": false,
+      "membershipDetails": null,
+      "website": "https://www.thebavarian.com.au/",
+      "phone": [
+        "+61-2-6162-0111"
+      ],
+      "extraDetails": [
+        {
+          "type": "google_reviews",
+          "label": "Google Reviews",
+          "url": "https://www.google.com/maps/place/The+Bavarian+Canberra",
+          "icon": "star"
+        },
+        {
+          "type": "facebook",
+          "label": "Facebook",
+          "url": "https://facebook.com/TheBavarianCanberra",
+          "icon": "facebook"
+        }
+      ],
+      "verifiedDate": "2025-01-04",
+      "active": true,
+      "tags": [
+        "german",
+        "beer-hall",
+        "restaurant",
+        "family-friendly"
       ]
     }
   ]
