@@ -12,8 +12,11 @@ import { Utensils, MapPin, Calendar, Sparkles, Star } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Home() {
+  // Get today's day for default filter
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
+  
   // Existing state
-  const [selectedDay, setSelectedDay] = useState<DayOfWeek | 'all'>('all');
+  const [selectedDay, setSelectedDay] = useState<DayOfWeek | 'all'>(today);
   const [selectedArea, setSelectedArea] = useState<string | 'all'>('all');
   const [selectedRegion, setSelectedRegion] = useState<string>('act-canberra');
 
@@ -165,8 +168,6 @@ export default function Home() {
 
   const regions = Object.values(metadata.regions).sort((a, b) => a.priority - b.priority);
 
-  // Get today's day name
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
   const todayDeals = (canberraData.venues as Venue[]).filter(v => v.days.includes(today)).length;
 
   return (
