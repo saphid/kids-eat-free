@@ -1652,9 +1652,7 @@
       "id": "two-blind-mice",
       "name": "Two Blind Mice",
       "area": "city",
-      "address": "Canberra ACT",
-      "latitude": -35.2809,
-      "longitude": 149.1300,
+      "address": "Shop 4, 17 Garema Place, Canberra City ACT 2601",
       "suburb": "Canberra City",
       "postcode": "2601",
       "days": [
