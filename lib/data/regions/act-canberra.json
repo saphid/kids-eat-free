@@ -1621,9 +1621,7 @@
       "id": "the-hungry-buddha",
       "name": "The Hungry Buddha",
       "area": "city",
-      "address": "Canberra ACT",
-      "latitude": -35.2809,
-      "longitude": 149.1300,
+      "address": "Shop 9, 180 City Walk, Canberra City ACT 2601",
       "suburb": "Canberra City",
       "postcode": "2601",
       "days": [
