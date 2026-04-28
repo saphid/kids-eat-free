@@ -1,7 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 const { execSync } = require('child_process');
 
-const data = JSON.parse(fs.readFileSync('/Users/alexsouthwell/conductor/workspaces/kids-eat-free/daegu/lib/data/regions/act-canberra.json', 'utf8'));
+const dataPath = path.join(__dirname, '..', 'lib', 'data', 'regions', 'act-canberra.json');
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
 // Test a sample of URLs from each type
 const samples = {
