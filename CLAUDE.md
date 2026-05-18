@@ -20,3 +20,11 @@ Status: Maintenance
 | File | Purpose |
 |------|---------|
 | notes/README.md | Feature list, filter options, GPS/radius search details |
+
+## Principles
+1. State the invariant before you code — the fix shape falls out of it.
+2. Look for existing primitives before building new ones.
+3. Write the dumbest version that works; require a reason to add any layer.
+4. A trivial change shouldn't need a cascade of CI fixes — that's a shape problem, not a CI problem.
+5. Match process weight to problem size; don't orchestrate a one-shot fix.
+6. Before shipping, ask explicitly: "is there a simpler version?"
