@@ -1,0 +1,11 @@
+{
+  "$schema": "./schema/config.schema.json",
+  "name": "kids-eat-free-data",
+  "description": "Kids Eat Free venue and location data for Canberra region",
+  "version": "1.0.0",
+  "defaultRegion": "act-canberra",
+  "dataFormat": "json",
+  "license": "CC-BY-4.0",
+  "repository": "https://github.com/saphid/kids-eat-free-data",
+  "maintainer": "Kids Eat Free Community"
+}

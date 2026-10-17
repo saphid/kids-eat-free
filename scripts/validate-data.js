@@ -2,55 +2,92 @@
 const fs = require('fs');
 const path = require('path');
 
-const regionsDir = path.join(__dirname, '../lib/data/regions');
-const metadataPath = path.join(__dirname, '../lib/data/regions/metadata.json');
+const dataDir = path.join(__dirname, '../data');
+const metadataPath = path.join(dataDir, 'metadata.json');
 
 try {
   const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
-  const regionFiles = fs.readdirSync(regionsDir).filter(f => f.endsWith('.json') && f !== 'metadata.json');
-
+  
   let errors = [];
+  let venueCount = 0;
+  let regionCount = 0;
 
-  regionFiles.forEach(file => {
-    const filePath = path.join(regionsDir, file);
-    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-    if (!data.region || !data.venues || !Array.isArray(data.venues)) {
-      errors.push(`${file}: Missing required fields (region, venues array)`);
+  // Validate each region defined in metadata
+  Object.entries(metadata.regions).forEach(([regionId, regionConfig]) => {
+    regionCount++;
+    
+    // Check if venue file exists
+    const venueFilePath = path.join(dataDir, regionConfig.files.venues);
+    if (!fs.existsSync(venueFilePath)) {
+      errors.push(`Region ${regionId}: Venue file not found at ${regionConfig.files.venues}`);
       return;
     }
 
-    data.venues.forEach((venue, index) => {
+    // Check if suburb file exists
+    const suburbFilePath = path.join(dataDir, regionConfig.files.suburbs);
+    if (!fs.existsSync(suburbFilePath)) {
+      errors.push(`Region ${regionId}: Suburb file not found at ${regionConfig.files.suburbs}`);
+    }
+
+    // Validate venue data
+    const venueData = JSON.parse(fs.readFileSync(venueFilePath, 'utf8'));
+    
+    if (!venueData.region || !venueData.venues || !Array.isArray(venueData.venues)) {
+      errors.push(`Region ${regionId}: Missing required fields (region, venues array)`);
+      return;
+    }
+
+    if (venueData.region !== regionId) {
+      errors.push(`Region ${regionId}: Venue file region "${venueData.region}" doesn't match expected "${regionId}"`);
+    }
+
+    venueData.venues.forEach((venue, index) => {
+      venueCount++;
       const required = ['id', 'name', 'area', 'days', 'details', 'website', 'phone'];
       required.forEach(field => {
         if (!venue[field]) {
-          errors.push(`${file}: Venue ${index + 1} missing field: ${field}`);
+          errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name || 'unnamed'}) missing field: ${field}`);
         }
       });
 
       if (!Array.isArray(venue.days)) {
-        errors.push(`${file}: Venue ${index + 1} 'days' must be an array`);
+        errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) 'days' must be an array`);
       } else if (venue.days.length === 0) {
-        errors.push(`${file}: Venue ${index + 1} 'days' array is empty`);
+        errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) 'days' array is empty`);
       } else {
         const validDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         venue.days.forEach(day => {
           if (!validDays.includes(day)) {
-            errors.push(`${file}: Venue ${index + 1} has invalid day: ${day}`);
+            errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) has invalid day: ${day}`);
           }
         });
       }
 
       if (!Array.isArray(venue.phone)) {
-        errors.push(`${file}: Venue ${index + 1} 'phone' must be an array`);
+        errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) 'phone' must be an array`);
       } else if (venue.phone.length === 0) {
-        errors.push(`${file}: Venue ${index + 1} 'phone' array is empty`);
+        errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) 'phone' array is empty`);
       }
 
       if (!Array.isArray(venue.extraDetails)) {
-        errors.push(`${file}: Venue ${index + 1} 'extraDetails' must be an array`);
+        errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) 'extraDetails' must be an array`);
       }
     });
+
+    // Validate suburb data if file exists
+    if (fs.existsSync(suburbFilePath)) {
+      const suburbData = JSON.parse(fs.readFileSync(suburbFilePath, 'utf8'));
+      
+      if (!suburbData.suburbs || !Array.isArray(suburbData.suburbs)) {
+        errors.push(`Region ${regionId}: Suburb file missing 'suburbs' array`);
+      } else {
+        suburbData.suburbs.forEach((suburb, index) => {
+          if (!suburb.name || !suburb.displayName || suburb.latitude === undefined || suburb.longitude === undefined) {
+            errors.push(`Region ${regionId}: Suburb ${index + 1} missing required fields (name, displayName, latitude, longitude)`);
+          }
+        });
+      }
+    }
   });
 
   if (errors.length > 0) {
@@ -59,7 +96,9 @@ try {
     process.exit(1);
   }
 
-  console.log('✅ All JSON data is valid!');
+  console.log(`✅ All data is valid!`);
+  console.log(`   - ${regionCount} region(s) validated`);
+  console.log(`   - ${venueCount} venue(s) validated`);
 } catch (error) {
   console.error('❌ Validation failed:', error.message);
   process.exit(1);
