@@ -22,6 +22,7 @@ data/
 2. Create `venues.json` following the venue schema
 3. Create `suburbs.json` with local suburb/location data
 4. Add the region to `metadata.json`
+5. Update the region imports and initial region in `app/page.tsx` to use the new data, then validate and rebuild. The app currently imports one region at build time.
 
 ## File Formats
 
@@ -87,13 +88,11 @@ Contains all region definitions including:
 
 The app can import data directly from this folder during development.
 
-### Option 2: Remote Data (Production)
+### Option 2: Separate Data Repository (Production)
 
-Set the `DATA_REPO_URL` environment variable to fetch data from a remote repository:
+Run the **Sync Data and Deploy** GitHub Actions workflow with the data repository URL and branch. The workflow replaces the local `data/` directory before validating and building the static site. The data repository can also send a `data-updated` repository dispatch with `data_repo` and optionally `data_branch` in the client payload.
 
-```bash
-DATA_REPO_URL=https://raw.githubusercontent.com/username/kids-eat-free-data/main
-```
+Data is bundled at build time. Changing it requires a rebuild and deployment; the app does not fetch data from a `DATA_REPO_URL` environment variable at runtime. For another city, update the region imports and initial region in `app/page.tsx` before building.
 
 ### Option 3: Git Submodule
 
