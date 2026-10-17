@@ -6,6 +6,7 @@ import { dayDisplayNames, dayShortNames, dayColors, dayBgColors, dayTextColors }
 import { X, Search, MapPin, Navigation, Loader2, ChevronDown, Calendar } from 'lucide-react';
 
 interface FilterBarProps {
+  today: DayOfWeek | null;
   availableRegions: Region[];
   selectedDay: DayOfWeek | 'all';
   selectedArea: string | 'all';
@@ -36,6 +37,7 @@ interface FilterBarProps {
 const days: (DayOfWeek | 'all')[] = ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 export default function FilterBar({
+  today,
   availableRegions,
   selectedDay,
   selectedArea,
@@ -109,9 +111,6 @@ export default function FilterBar({
       setShowSuggestions(false);
     }
   };
-
-  // Get today's day
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
 
   return (
     <div className="card p-4 sm:p-6 overflow-visible">

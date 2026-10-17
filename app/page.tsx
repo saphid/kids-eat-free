@@ -1,22 +1,21 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import FilterBar from '@/components/FilterBar';
 import VenueList from '@/components/VenueList';
 import { Venue, VenueFilters, DayOfWeek } from '@/lib/types';
 import { filterVenues, sortVenues, sortVenuesByDistance, getAreasForRegion } from '@/lib/utils';
-import { geocodeAddress, getLocationSuggestions, AutocompleteSuggestion } from '@/lib/geocoding';
-import metadata from '@/lib/data/regions/metadata.json';
-import canberraData from '@/lib/data/regions/act-canberra.json';
+import { geocodeAddress, getLocationSuggestions, AutocompleteSuggestion, setSuburbsCache } from '@/lib/geocoding';
+// Data loaded from the data folder (can be replaced by a different data source)
+import metadata from '@/data/metadata.json';
+import canberraData from '@/data/regions/act-canberra/venues.json';
+import canberraSuburbs from '@/data/regions/act-canberra/suburbs.json';
 import { Utensils, MapPin, Calendar, Sparkles, Star } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Home() {
-  // Get today's day for default filter
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
-  
-  // Existing state
-  const [selectedDay, setSelectedDay] = useState<DayOfWeek | 'all'>(today);
+  const [today, setToday] = useState<DayOfWeek | null>(null);
+  const [selectedDay, setSelectedDay] = useState<DayOfWeek | 'all'>('all');
   const [selectedArea, setSelectedArea] = useState<string | 'all'>('all');
   const [selectedRegion, setSelectedRegion] = useState<string>('act-canberra');
 
@@ -28,6 +27,18 @@ export default function Home() {
   const [isGeocoding, setIsGeocoding] = useState<boolean>(false);
   const [geocodingError, setGeocodingError] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
+
+  // Resolve the visitor's day after hydration so static exports stay current.
+  useEffect(() => {
+    const localDay = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
+    setToday(localDay);
+    setSelectedDay(localDay);
+  }, []);
+
+  // Initialize suburb cache on mount
+  useEffect(() => {
+    setSuburbsCache(canberraSuburbs.suburbs, selectedRegion);
+  }, [selectedRegion]);
 
   const areas = getAreasForRegion(selectedRegion);
 
@@ -168,7 +179,9 @@ export default function Home() {
 
   const regions = Object.values(metadata.regions).sort((a, b) => a.priority - b.priority);
 
-  const todayDeals = (canberraData.venues as Venue[]).filter(v => v.days.includes(today)).length;
+  const todayDeals = today === null
+    ? null
+    : (canberraData.venues as Venue[]).filter(v => v.days.includes(today)).length;
 
   return (
     <div className="min-h-screen gradient-subtle pattern-dots aurora-glow">
@@ -216,7 +229,7 @@ export default function Home() {
               <div className="flex items-center gap-2 bg-bg-primary/90 backdrop-blur-sm rounded-full px-4 py-2 border border-border shadow-md dark:bg-slate-dark/80 dark:border-slate-mid/50">
                 <Calendar className="w-4 h-4 text-accent" />
                 <span className="text-text-primary font-medium text-sm dark:text-silver">
-                  {todayDeals} deals today
+                  {todayDeals ?? '—'} deals today
                 </span>
               </div>
               <div className="flex items-center gap-2 bg-bg-primary/90 backdrop-blur-sm rounded-full px-4 py-2 border border-border shadow-md dark:bg-slate-dark/80 dark:border-slate-mid/50">
@@ -242,6 +255,7 @@ export default function Home() {
         {/* Filter Section */}
         <div className="animate-slide-up delay-300 relative z-20">
           <FilterBar
+            today={today}
             availableRegions={regions}
             selectedDay={selectedDay}
             selectedArea={selectedArea}
@@ -273,6 +287,7 @@ export default function Home() {
         {/* Venue List */}
         <div className="mt-6 sm:mt-8 animate-slide-up delay-400 relative z-10">
           <VenueList
+            today={today}
             venues={filteredAndSortedVenues}
             filters={filters}
             selectedRegion={selectedRegion}

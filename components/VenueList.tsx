@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Venue, VenueFilters } from '@/lib/types';
+import { Venue, VenueFilters, DayOfWeek } from '@/lib/types';
 import VenueCard from './VenueCard';
 import { getAreasForRegion, calculateDistance } from '@/lib/utils';
 import { Search, MapPin, Filter, Utensils } from 'lucide-react';
@@ -11,13 +11,14 @@ interface VenueWithDistance extends Venue {
 }
 
 interface VenueListProps {
+  today: DayOfWeek | null;
   venues: Venue[];
   filters: VenueFilters;
   selectedRegion: string;
   userLocation?: { latitude: number; longitude: number } | null;
 }
 
-export default function VenueList({ venues, filters, selectedRegion, userLocation }: VenueListProps) {
+export default function VenueList({ today, venues, filters, selectedRegion, userLocation }: VenueListProps) {
   const areas = getAreasForRegion(selectedRegion);
 
   // Calculate distances for all venues when user location is set
@@ -107,6 +108,7 @@ export default function VenueList({ venues, filters, selectedRegion, userLocatio
           const distanceKm = 'distanceKm' in venue ? (venue as VenueWithDistance).distanceKm : undefined;
           return (
             <VenueCard
+              today={today}
               key={venue.id}
               venue={venue}
               areaDisplayName={areas[venue.area]?.displayName || venue.area}

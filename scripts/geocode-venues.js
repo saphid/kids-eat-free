@@ -68,11 +68,11 @@ function sleep(ms) {
 }
 
 async function geocodeVenues() {
-  const regionsDir = path.join(__dirname, '../lib/data/regions');
-
-  // Get all region JSON files (excluding metadata.json)
-  const regionFiles = fs.readdirSync(regionsDir)
-    .filter(f => f.endsWith('.json') && f !== 'metadata.json');
+  const dataDir = path.join(__dirname, '../data');
+  const metadataPath = path.join(dataDir, 'metadata.json');
+  
+  // Load metadata to get region file paths
+  const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
 
   console.log('📍 Starting venue geocoding...\n');
 
@@ -80,11 +80,19 @@ async function geocodeVenues() {
   let totalSkipped = 0;
   let totalFailed = 0;
 
-  for (const file of regionFiles) {
-    const filePath = path.join(regionsDir, file);
-    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  // Process each region defined in metadata
+  for (const [regionId, regionConfig] of Object.entries(metadata.regions)) {
+    const venueFilePath = path.join(dataDir, regionConfig.files.venues);
+    
+    if (!fs.existsSync(venueFilePath)) {
+      console.log(`⚠️ Skipping ${regionId}: venue file not found`);
+      continue;
+    }
 
-    console.log(`\n📂 Processing ${file}...`);
+    const data = JSON.parse(fs.readFileSync(venueFilePath, 'utf8'));
+
+    console.log(`\n📂 Processing ${regionId}...`);
+    console.log(`   File: ${regionConfig.files.venues}`);
     console.log(`   Venues: ${data.venues.length}`);
 
     let updatedCount = 0;
@@ -123,7 +131,7 @@ async function geocodeVenues() {
     }
 
     // Write updated data back to file
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    fs.writeFileSync(venueFilePath, JSON.stringify(data, null, 2));
 
     console.log(`\n   📊 Results:`);
     console.log(`      ✅ Updated: ${updatedCount}`);

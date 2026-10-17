@@ -108,7 +108,8 @@ export function sortVenuesByDistance(
 
 export function getAreasForRegion(regionId: string): Record<string, { name: string; displayName: string }> {
   try {
-    const metadata = require('./data/regions/metadata.json');
+    // Load from the data folder (can be replaced by a different data source)
+    const metadata = require('@/data/metadata.json');
     return metadata.regions[regionId]?.areas || {};
   } catch {
     return {};
