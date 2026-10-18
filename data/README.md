@@ -58,6 +58,8 @@ data/
 }
 ```
 
+Use an empty `phone` array when a venue has no public phone number. The app hides the Call button for these venues.
+
 ### suburbs.json
 
 ```json

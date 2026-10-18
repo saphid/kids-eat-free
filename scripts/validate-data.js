@@ -65,8 +65,6 @@ try {
 
       if (!Array.isArray(venue.phone)) {
         errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) 'phone' must be an array`);
-      } else if (venue.phone.length === 0) {
-        errors.push(`Region ${regionId}: Venue ${index + 1} (${venue.name}) 'phone' array is empty`);
       }
 
       if (!Array.isArray(venue.extraDetails)) {
