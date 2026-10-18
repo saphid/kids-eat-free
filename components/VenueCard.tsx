@@ -22,13 +22,14 @@ import {
 } from 'lucide-react';
 
 interface VenueCardProps {
+  today: DayOfWeek | null;
   venue: Venue;
   areaDisplayName: string;
   distanceKm?: number;
   index?: number;
 }
 
-export default function VenueCard({ venue, areaDisplayName, distanceKm, index = 0 }: VenueCardProps) {
+export default function VenueCard({ today, venue, areaDisplayName, distanceKm, index = 0 }: VenueCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [phoneDropdownOpen, setPhoneDropdownOpen] = useState(false);
   const verificationStatus = getVerificationStatus(venue.verifiedDate);
@@ -54,8 +55,7 @@ export default function VenueCard({ venue, areaDisplayName, distanceKm, index = 
   };
 
   // Check if venue has a deal today
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
-  const hasDealsToday = venue.days.includes(today);
+  const hasDealsToday = today !== null && venue.days.includes(today);
 
   return (
     <article 

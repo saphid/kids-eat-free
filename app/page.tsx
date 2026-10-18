@@ -14,7 +14,7 @@ import { Utensils, MapPin, Calendar, Sparkles, Star } from 'lucide-react';
 import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Home() {
-  // Existing state
+  const [today, setToday] = useState<DayOfWeek | null>(null);
   const [selectedDay, setSelectedDay] = useState<DayOfWeek | 'all'>('all');
   const [selectedArea, setSelectedArea] = useState<string | 'all'>('all');
   const [selectedRegion, setSelectedRegion] = useState<string>('act-canberra');
@@ -27,6 +27,13 @@ export default function Home() {
   const [isGeocoding, setIsGeocoding] = useState<boolean>(false);
   const [geocodingError, setGeocodingError] = useState<string | null>(null);
   const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
+
+  // Resolve the visitor's day after hydration so static exports stay current.
+  useEffect(() => {
+    const localDay = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
+    setToday(localDay);
+    setSelectedDay(localDay);
+  }, []);
 
   // Initialize suburb cache on mount
   useEffect(() => {
@@ -172,9 +179,9 @@ export default function Home() {
 
   const regions = Object.values(metadata.regions).sort((a, b) => a.priority - b.priority);
 
-  // Get today's day name
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase() as DayOfWeek;
-  const todayDeals = (canberraData.venues as Venue[]).filter(v => v.days.includes(today)).length;
+  const todayDeals = today === null
+    ? null
+    : (canberraData.venues as Venue[]).filter(v => v.days.includes(today)).length;
 
   return (
     <div className="min-h-screen gradient-subtle pattern-dots aurora-glow">
@@ -222,7 +229,7 @@ export default function Home() {
               <div className="flex items-center gap-2 bg-bg-primary/90 backdrop-blur-sm rounded-full px-4 py-2 border border-border shadow-md dark:bg-slate-dark/80 dark:border-slate-mid/50">
                 <Calendar className="w-4 h-4 text-accent" />
                 <span className="text-text-primary font-medium text-sm dark:text-silver">
-                  {todayDeals} deals today
+                  {todayDeals ?? '—'} deals today
                 </span>
               </div>
               <div className="flex items-center gap-2 bg-bg-primary/90 backdrop-blur-sm rounded-full px-4 py-2 border border-border shadow-md dark:bg-slate-dark/80 dark:border-slate-mid/50">
@@ -248,6 +255,7 @@ export default function Home() {
         {/* Filter Section */}
         <div className="animate-slide-up delay-300 relative z-20">
           <FilterBar
+            today={today}
             availableRegions={regions}
             selectedDay={selectedDay}
             selectedArea={selectedArea}
@@ -279,6 +287,7 @@ export default function Home() {
         {/* Venue List */}
         <div className="mt-6 sm:mt-8 animate-slide-up delay-400 relative z-10">
           <VenueList
+            today={today}
             venues={filteredAndSortedVenues}
             filters={filters}
             selectedRegion={selectedRegion}
